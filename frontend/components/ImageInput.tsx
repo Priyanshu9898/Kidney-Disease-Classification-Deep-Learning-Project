@@ -1,39 +1,97 @@
-import React, { FC } from "react";
+"use client";
+
+import React, { FC, useState } from "react";
+import axios from "axios";
+import { Button } from "flowbite-react";
 
 const ImageInput: FC = () => {
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState("");
+  const [prediction, setPrediction] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+    if (file && file.type.substr(0, 5) === "image") {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
+    } else {
+      setImage(null);
+    }
+  };
+
+  const handlePredict = async () => {
+    if (!image) return;
+
+    const formData = new FormData();
+    formData.append("file", image);
+
+    try {
+      setLoading(true);
+
+      const response = await axios.post("YOUR_BACKEND_ENDPOINT", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setPrediction(response.data);
+    } catch (error) {
+      console.error("Error during prediction:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
-      <div className="flex items-center justify-center w-full">
+      <div className="flex flex-col items-center justify-center w-full">
+
         <label
-          htmlFor="dropzone-file"
-          className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          htmlFor="file_input"
         >
-          <div className="flex flex-col items-center justify-center pt-5 pb-6">
-            <svg
-              className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 16"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-              />
-            </svg>
-            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-              <span className="font-semibold">Click to upload</span> or drag and
-              drop
-            </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              SVG, PNG, JPG or GIF (MAX. 800x400px)
-            </p>
-          </div>
-          <input id="dropzone-file" type="file" className="hidden" />
+          Upload file
         </label>
+        <input
+          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+          aria-describedby="file_input_help"
+          id="file_input"
+          onChange={handleFileChange}
+          type="file"
+        />
+        <p
+          className="mt-1 text-sm text-gray-500 dark:text-gray-300"
+          id="file_input_help"
+        >
+          SVG, PNG, JPG or GIF (MAX. 800x400px).
+        </p>
+
+        {image && (
+          <div className="grid grid-cols-2 gap-4 mt-6 w-full">
+            <div className="flex flex-col items-center justify-center">
+              {preview && (
+                <img
+                  src={preview}
+                  alt="Preview"
+                  className="max-w-full h-auto"
+                />
+              )}
+              <Button
+                className="mt-2"
+                gradientDuoTone="purpleToPink"
+                // className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+                onClick={handlePredict}
+                disabled={loading}
+              >
+                {loading ? "Predicting..." : "Predict"}
+              </Button>
+            </div>
+            <div className="flex flex-col items-center justify-center">
+              <h3 className="text-lg font-semibold">Prediction Result:</h3>
+              {prediction ? <p>{prediction}</p> : <p>No prediction yet</p>}
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

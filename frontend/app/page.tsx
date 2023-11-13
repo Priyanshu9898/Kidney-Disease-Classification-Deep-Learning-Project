@@ -4,7 +4,7 @@ import React, { FC } from "react";
 const page: FC = () => {
   return (
     <div className="flex items-center justify-center w-full h-full">
-      <div className="w-[60%] pt-10">
+      <div className="w-[60%] pt-2">
         <ImageInput />
       </div>
     </div>
