@@ -20,21 +20,42 @@ const ImageInput: FC = () => {
     }
   };
 
+  const convertToBase64 = (file: any) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
   const handlePredict = async () => {
     if (!image) return;
 
-    const formData = new FormData();
-    formData.append("file", image);
-
     try {
       setLoading(true);
+      const base64Image = await convertToBase64(image);
 
-      const response = await axios.post("YOUR_BACKEND_ENDPOINT", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const response = await axios.post("http://localhost:8080/predict", {
+        image: base64Image,
       });
-      setPrediction(response.data);
+
+      // console.log(response);
+
+      const res = response.data[0].image;
+
+      // console.log(res);
+
+      setPrediction(res);
+
+      setLoading(false);
+
     } catch (error) {
       console.error("Error during prediction:", error);
     } finally {
@@ -45,7 +66,6 @@ const ImageInput: FC = () => {
   return (
     <>
       <div className="flex flex-col items-center justify-center w-full">
-
         <label
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           htmlFor="file_input"
@@ -88,7 +108,7 @@ const ImageInput: FC = () => {
             </div>
             <div className="flex flex-col items-center justify-center">
               <h3 className="text-lg font-semibold">Prediction Result:</h3>
-              {prediction ? <p>{prediction}</p> : <p>No prediction yet</p>}
+              {prediction ? <p className="text-xl color-gray">{prediction}</p> : <p>No prediction yet</p>}
             </div>
           </div>
         )}
