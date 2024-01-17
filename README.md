@@ -24,7 +24,7 @@ The dataset comprises 12,446 unique data points, including 3,709 cyst, 5,077 nor
 
 ## Technology Stack
 ### Frontend:
-- Nextjs 13
+- Nextjs 14
 - TypeScript
 - TailwindCSS
 - Shadcn.UI
@@ -73,7 +73,7 @@ The dataset comprises 12,446 unique data points, including 3,709 cyst, 5,077 nor
 Clone the repository
 
 ```bash
-https://github.com/Prriyanshu9898/Kidney-Disease-Classification-Using-Deep-Learning.git
+git clone https://github.com/Prriyanshu9898/Kidney-Disease-Classification-Using-Deep-Learning.git
 ```
 ### STEP 01- Create a Python environment after opening the repository
 
