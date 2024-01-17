@@ -22,6 +22,21 @@ The dataset comprises 12,446 unique data points, including 3,709 cyst, 5,077 nor
 
 ### Dataset Link: https://www.kaggle.com/datasets/nazmul0087/ct-kidney-dataset-normal-cyst-tumor-and-stone/data
 
+## Technology Stack
+### Frontend:
+- Nextjs 13
+- TypeScript
+- TailwindCSS
+- Shadcn.UI
+### Backend:
+- Python
+- DVC
+- MLFlow
+- Deep Learning & Computer Vision
+- Transformers & HuggingFace
+- Flask
+- OOP Principles
+
 
 ## Models Trained
 - TNT transformer
