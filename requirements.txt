@@ -16,4 +16,7 @@ scipy
 Flask
 Flask-Cors
 gdown
+torchvision
+torch
+timm
 -e .

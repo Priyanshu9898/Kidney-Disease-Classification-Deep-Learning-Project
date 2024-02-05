@@ -1,0 +1,6 @@
+Model,Accuracy,Precision,Recall,F1 Score
+efficientvit_m1,1.0,1.0,1.0,1.0
+efficientvit_m2,1.0,1.0,1.0,1.0
+efficientvit_m3,1.0,1.0,1.0,1.0
+efficientvit_m4,1.0,1.0,1.0,1.0
+efficientvit_m5,0.9995983935742971,0.9996402877697842,0.9991666666666666,0.9994026521283973
