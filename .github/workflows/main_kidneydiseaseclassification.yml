@@ -64,4 +64,4 @@ jobs:
         with:
           app-name: 'kidneydiseaseclassification'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AF3485F4EE84424C9ABD08A514567A9F }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F2D960EC17E042FC9B7EF5CF478CCDF6 }}
